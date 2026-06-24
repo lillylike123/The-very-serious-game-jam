@@ -2,37 +2,94 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    public float jumpForce = 10f;
+    [Header("References")]
+    public Rigidbody2D rb;
+    public Transform groundCheck;
+    public LayerMask groundLayer;
 
-    private Rigidbody2D rb;
+    public ChaosEffectManager chaosManager;
+    public GameManager gameManager;
+
+    [Header("Jump")]
+    public float jumpForce = 500f;
+
+    [Header("Ground Check")]
+    public float groundCheckRadius = 0.25f;
+
+    [Header("Coyote Time")]
+    public float coyoteTime = 0.15f;
+
+    private float coyoteCounter;
     private bool isGrounded;
-
-    void Start()
-    {
-        rb = GetComponent<Rigidbody2D>();
-    }
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
+        CheckGround();
+        HandleCoyoteTime();
+        HandleJump();
+    }
+
+    void CheckGround()
+    {
+        isGrounded = Physics2D.OverlapCircle(
+            groundCheck.position,
+            groundCheckRadius,
+            groundLayer
+        );
+    }
+
+    void HandleCoyoteTime()
+    {
+        if (isGrounded)
         {
-            rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
+            coyoteCounter = coyoteTime;
+        }
+        else
+        {
+            coyoteCounter -= Time.deltaTime;
         }
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    void HandleJump()
+{
+    if (Input.GetKeyDown(KeyCode.Space) && coyoteCounter > 0)
     {
-        if (collision.gameObject.CompareTag("Ground"))
+        chaosManager.HandleJumpChaos();
+
+        rb.linearVelocity = new Vector2(
+            rb.linearVelocity.x,
+            0
+        );
+
+        if (rb.gravityScale > 0)
         {
-            isGrounded = true;
+            rb.AddForce(Vector2.up * jumpForce);
+        }
+        else
+        {
+            rb.AddForce(Vector2.down * jumpForce);
+        }
+    }
+}
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.CompareTag("Spike"))
+        {
+            gameManager.GameOver();
         }
     }
 
-    private void OnCollisionExit2D(Collision2D collision)
+    private void OnDrawGizmosSelected()
     {
-        if (collision.gameObject.CompareTag("Ground"))
-        {
-            isGrounded = false;
-        }
+        if (groundCheck == null)
+            return;
+
+        Gizmos.color = Color.red;
+
+        Gizmos.DrawWireSphere(
+            groundCheck.position,
+            groundCheckRadius
+        );
     }
 }
