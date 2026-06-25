@@ -12520,8 +12520,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
+  m_Sprite: {fileID: 4002528575457972898, guid: d703870baf5e6ac4eb8aa6f36ecf399d, type: 3}
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -16340,7 +16340,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 960d57c6ec8cff24d979230facff1793, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GroundScroller
-  speed: 6.7
+  speed: 6.5
+  difficultyManager: {fileID: 1704041795}
 --- !u!61 &492921162
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -33075,7 +33076,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ChaosWheel
   timerText: {fileID: 1825640013}
   uiManager: {fileID: 1704041794}
+  spikeManager: {fileID: 1233961568}
   chaosManager: {fileID: 1704041793}
+  difficultyManager: {fileID: 1704041795}
 --- !u!212 &964757207
 SpriteRenderer:
   serializedVersion: 2
@@ -34188,7 +34191,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 960d57c6ec8cff24d979230facff1793, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GroundScroller
-  speed: 6.7
+  speed: 6.5
+  difficultyManager: {fileID: 1704041795}
 --- !u!1 &983417754
 GameObject:
   m_ObjectHideFlags: 0
@@ -41708,6 +41712,52 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!1 &1187971979
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1187971981}
+  - component: {fileID: 1187971980}
+  m_Layer: 0
+  m_Name: GroundScroller
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1187971980
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1187971979}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 960d57c6ec8cff24d979230facff1793, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GroundScroller
+  speed: 6.5
+  difficultyManager: {fileID: 1704041795}
+--- !u!4 &1187971981
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1187971979}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.57584, y: 1.02598, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1189289010
 GameObject:
   m_ObjectHideFlags: 0
@@ -43030,7 +43080,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 960d57c6ec8cff24d979230facff1793, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GroundScroller
-  speed: 6.7
+  speed: 6.5
+  difficultyManager: {fileID: 1704041795}
 --- !u!1 &1219814898
 GameObject:
   m_ObjectHideFlags: 0
@@ -43839,13 +43890,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SpikeManager
   spikePrefab: {fileID: 2611111456963012680, guid: b03274c0ead84544f9ddeb6a30d6d180, type: 3}
   playerRB: {fileID: 1609979818}
-  worldSpeed: 6.7
+  worldSpeed: 6.5
   spawnX: 20
   floorY: -3.5
   ceilingY: 3.85
   spawnInterval: 1.5
   destroyX: -20
+  difficultyManager: {fileID: 1704041795}
   chaosManager: {fileID: 1704041793}
+  chaosWheel: {fileID: 964757206}
 --- !u!1 &1235628578
 GameObject:
   m_ObjectHideFlags: 0
@@ -58311,7 +58364,7 @@ MonoBehaviour:
   chaosManager: {fileID: 1704041793}
   gameManager: {fileID: 1704041792}
   jumpForce: 13
-  flappyForce: 8
+  flappyForce: 10
   groundCheckRadius: 0.5
   coyoteTime: 0.15
 --- !u!1 &1613960484
@@ -61551,6 +61604,7 @@ GameObject:
   - component: {fileID: 1704041792}
   - component: {fileID: 1704041793}
   - component: {fileID: 1704041794}
+  - component: {fileID: 1704041795}
   m_Layer: 0
   m_Name: Game manager
   m_TagString: Untagged
@@ -61626,6 +61680,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ChaosUIManager
   chaosText: {fileID: 1413349723}
+--- !u!114 &1704041795
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1704041789}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 53d4460e61b23b240af7695bfffa3ad1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DifficultyManager
+  spikeManager: {fileID: 1233961568}
+  groundScroller: {fileID: 1187971980}
+  currentSpeed: 6.5
+  maxSpeed: 20.3
+  speedIncrease: 0.5
+  difficultyInterval: 10
 --- !u!1 &1705491957
 GameObject:
   m_ObjectHideFlags: 0
@@ -64006,12 +64078,12 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 7022744178559056662, guid: 94843cb6550c6eb4994d5b587adb5705, type: 3}
+  m_Sprite: {fileID: 7042847911465117151, guid: 4a8a61b9fb9be0d438cd656d02175fa5, type: 3}
   m_Color: {r: 0, g: 0.9137255, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 16.72, y: 9.41}
+  m_Size: {x: 5.07, y: 3.06}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -64025,8 +64097,8 @@ Transform:
   m_GameObject: {fileID: 1778855901}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -25.9148, y: 3.7946, z: 5}
-  m_LocalScale: {x: 1.4229963, y: 1.0272354, z: 1}
+  m_LocalPosition: {x: -25.9304, y: 4.5184, z: 5}
+  m_LocalScale: {x: 4.610801, y: 2.8791542, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2100577498}
@@ -64058,6 +64130,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GroundScroller
   speed: 2
+  difficultyManager: {fileID: 0}
 --- !u!1 &1779224232
 GameObject:
   m_ObjectHideFlags: 0
@@ -67909,7 +67982,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 960d57c6ec8cff24d979230facff1793, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GroundScroller
-  speed: 6.7
+  speed: 6.5
+  difficultyManager: {fileID: 1704041795}
 --- !u!1 &1872931770
 GameObject:
   m_ObjectHideFlags: 0
@@ -76650,3 +76724,4 @@ SceneRoots:
   - {fileID: 1704041790}
   - {fileID: 2100577498}
   - {fileID: 1233961567}
+  - {fileID: 1187971981}
