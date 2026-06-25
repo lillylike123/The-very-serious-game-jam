@@ -11,7 +11,8 @@ public class PlayerController : MonoBehaviour
     public GameManager gameManager;
 
     [Header("Jump")]
-    public float jumpForce = 500f;
+    public float jumpForce = 10f;
+    public float flappyForce = 8f;
 
     [Header("Ground Check")]
     public float groundCheckRadius = 0.25f;
@@ -25,7 +26,16 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         CheckGround();
-        HandleCoyoteTime();
+
+        if (isGrounded)
+        {
+            coyoteCounter = coyoteTime;
+        }
+        else
+        {
+            coyoteCounter -= Time.deltaTime;
+        }
+
         HandleJump();
     }
 
@@ -38,45 +48,75 @@ public class PlayerController : MonoBehaviour
         );
     }
 
-    void HandleCoyoteTime()
-    {
-        if (isGrounded)
-        {
-            coyoteCounter = coyoteTime;
-        }
-        else
-        {
-            coyoteCounter -= Time.deltaTime;
-        }
-    }
-
     void HandleJump()
-{
-    if (Input.GetKeyDown(KeyCode.Space) && coyoteCounter > 0)
     {
-        chaosManager.HandleJumpChaos();
-
-        rb.linearVelocity = new Vector2(
-            rb.linearVelocity.x,
-            0
-        );
-
-        if (rb.gravityScale > 0)
+        // FLAPPY MODE
+        if (chaosManager != null &&
+            chaosManager.IsFlappyMode())
         {
-            rb.AddForce(Vector2.up * jumpForce);
+            HandleFlappyMode();
+            return;
         }
-        else
+
+        // NORMAL MODE
+        if (Input.GetKeyDown(KeyCode.Space))
         {
-            rb.AddForce(Vector2.down * jumpForce);
+            if (coyoteCounter > 0)
+            {
+                if (chaosManager != null)
+                {
+                    chaosManager.HandleJumpChaos();
+                }
+
+                Vector2 jumpDirection =
+                    rb.gravityScale > 0
+                    ? Vector2.up
+                    : Vector2.down;
+
+                rb.linearVelocity = new Vector2(
+                    rb.linearVelocity.x,
+                    0f
+                );
+
+                rb.AddForce(
+                    jumpDirection * jumpForce,
+                    ForceMode2D.Impulse
+                );
+
+                coyoteCounter = 0;
+            }
         }
     }
-}
+
+    void HandleFlappyMode()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            Vector2 flapDirection =
+                rb.gravityScale > 0
+                ? Vector2.up
+                : Vector2.down;
+
+            rb.linearVelocity = new Vector2(
+                rb.linearVelocity.x,
+                0f
+            );
+
+            rb.AddForce(
+                flapDirection * flappyForce,
+                ForceMode2D.Impulse
+            );
+        }
+    }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Spike"))
         {
-            gameManager.GameOver();
+            if (gameManager != null)
+            {
+                gameManager.GameOver();
+            }
         }
     }
 
