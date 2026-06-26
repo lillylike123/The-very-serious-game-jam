@@ -41,15 +41,20 @@ public class SpikeManager : MonoBehaviour
 
     void SpawnSpikyFloor()
     {
-        float spacing = 2.5f;
+        float gap = 5f;
+
+        if (difficultyManager.GetCurrentSpeed() >= 14f)
+        {
+            gap = 6.5f;
+        }
 
         for (int i = 0; i < 12; i++)
         {
             Instantiate(
                 spikePrefab,
                 new Vector3(
-                    spawnX + i * spacing,
-                    -3.5f,
+                    spawnX + i * gap,
+                    floorY,
                     -1f
                 ),
                 Quaternion.identity
@@ -59,13 +64,15 @@ public class SpikeManager : MonoBehaviour
 
     void SpawnGroup()
     {
-        if (chaosManager.IsFlappyMode())
-        {
-            if (chaosManager.IsSpikyFloor())
+        if (chaosManager.IsSpikyFloor())
             {
                 SpawnSpikyFloor();
                 return;
             }
+
+        if (chaosManager.IsFlappyMode())
+        {
+            
             
             if (chaosWheel.GetTimer() > 5f)
             {
