@@ -19,13 +19,14 @@ public class PlayerController : MonoBehaviour
 
     [Header("Coyote Time")]
     public float coyoteTime = 0.15f;
-
+    private bool isPaused = false;
     private float coyoteCounter;
     private bool isGrounded;
 
     void Update()
     {
         CheckGround();
+        HandlePause();
 
         if (isGrounded)
         {
@@ -92,6 +93,7 @@ public class PlayerController : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
+            
             Vector2 flapDirection =
                 rb.gravityScale > 0
                 ? Vector2.up
@@ -132,4 +134,22 @@ public class PlayerController : MonoBehaviour
             groundCheckRadius
         );
     }
+
+    void HandlePause()
+    {
+        if (Input.GetKeyDown(KeyCode.LeftShift))
+        {
+            isPaused = !isPaused;
+
+            if (isPaused)
+            {
+                Time.timeScale = 0f;
+            }
+            else
+            {
+                Time.timeScale = 1f;
+            }
+        }
+    }  
+
 }

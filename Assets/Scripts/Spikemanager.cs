@@ -41,11 +41,11 @@ public class SpikeManager : MonoBehaviour
 
     void SpawnSpikyFloor()
     {
-        float gap = 5f;
+        float gap = 7f;
 
         if (difficultyManager.GetCurrentSpeed() >= 14f)
         {
-            gap = 6.5f;
+            gap = 9f;
         }
 
         for (int i = 0; i < 12; i++)
